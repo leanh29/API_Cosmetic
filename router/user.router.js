@@ -5,7 +5,7 @@ router.post("/dangky", dangky);
 router.get("/getAllUsers", user_list);
 router.get("/getUser/:username",findUser);
 router.delete("/deleteUser/:username",delUser);
-router.put("updateUser/:username",updateUser);
+router.put("/updateUser/:username",updateUser);
 module.exports = router;
 
 function dangky (req, res) {
@@ -112,7 +112,12 @@ function updateUser(req,res){
     let email=req.body.email;
     userController.updateUser(username,email)
     .then(function(data){
-        return res.json(data);
+        
+        return res.json({
+            data:data,
+            statusCode: 200,
+            message: config.SUCCESS,
+        });
     })
     .catch(function(err){
         return res.json(err);
