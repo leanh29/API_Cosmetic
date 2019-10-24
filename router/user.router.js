@@ -102,15 +102,15 @@ function delUser(req,res){
     })
 }
 function updateUser(req,res){
-    var username=req.query.username;
-    if(!username){
-        return res.json({
-            statusCode : 400,
-            message : "Bạn chưa nhập username"
-        })
-    }
-    var email=req.query.email;
-    userController.updateUser(email)
+    var username=req.params.username;
+    // if(!username){
+    //     return res.json({
+    //         statusCode : 400,
+    //         message : "Bạn chưa nhập username"
+    //     })
+    // }
+    let email=req.body.email;
+    userController.updateUser(username,email)
     .then(function(data){
         return res.json(data);
     })

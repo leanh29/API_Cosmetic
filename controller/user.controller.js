@@ -108,12 +108,19 @@ function delUser(username) {
             return Promise.reject(err);
         });
 }
-function updateUser(username) {
-    return userModel.findOneAndUpdate({ username: username })
+function updateUser(username,email) {
+    return userModel.findOne({username:username})
         .then(data => {
             if (data) {
-                return Promise.resolve({
-                    message: "update thành công"
+                return Promise((resolve, reject)=>{
+                    return userModel.updateOne({username:username},{ $set: {email:email}})
+                    .then(() => {
+                        data.email = email;
+                        return resolve(data);
+                    })
+                    .catch((err) => {
+                        return reject(err);
+                    });
                 })
             }
             else {
