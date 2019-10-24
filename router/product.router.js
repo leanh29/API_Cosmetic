@@ -2,7 +2,7 @@ var productController = require("../controller/product.controller");
 var router = require("express").Router();
 
 router.post("/addProduct",addProduct);
-
+router.get("/getAllProduct",product_list);
 module.exports=router;
 
 function addProduct(req,res){
@@ -57,5 +57,14 @@ function addProduct(req,res){
     })
     .catch(function(err){
         return res.json(err);
+    })
+}
+function product_list(req,res){
+    productController.product_list()
+    .then(function(data){
+        res.json(data);
+    })
+    .catch(function(err){
+        res.json(err);
     })
 }

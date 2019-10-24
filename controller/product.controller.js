@@ -4,6 +4,7 @@ var productModel = modelData.productModel
 
 module.exports={
     createProduct: createProduct,
+    product_list: product_list,
 }
 function createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name) {
     return productModel.find({ product_id: product_id })
@@ -52,4 +53,21 @@ function createProduct(product_id,product_name,unit,price,image,discription,stat
         .catch(function (err) {
             return Promise.reject(err);
         })
+}
+function product_list(){
+    return productModel.find({},(err,data)=>{
+        if(data.length > 0){
+            return Promise.resolve({
+                message : "danh sách sản phẩm",
+                data : data
+            });
+
+        }
+        else{
+            return Promise.resolve({
+                message : "danh sách sản phẩm trống"
+            })
+        }
+
+    })
 }

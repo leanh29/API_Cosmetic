@@ -4,7 +4,8 @@ var router = require("express").Router();
 router.post("/dangky", dangky);
 router.get("/getAllUsers", user_list);
 router.get("/getUser/:username",findUser);
-router.delete("/deleteUser/:username",delUser)
+router.delete("/deleteUser/:username",delUser);
+router.put("updateUser/:username",updateUser);
 module.exports = router;
 
 function dangky (req, res) {
@@ -93,6 +94,23 @@ function delUser(req,res){
         })
     }
     userController.delUser(username)
+    .then(function(data){
+        return res.json(data);
+    })
+    .catch(function(err){
+        return res.json(err);
+    })
+}
+function updateUser(req,res){
+    var username=req.query.username;
+    if(!username){
+        return res.json({
+            statusCode : 400,
+            message : "Bạn chưa nhập username"
+        })
+    }
+    var email=req.query.email;
+    userController.updateUser(email)
     .then(function(data){
         return res.json(data);
     })

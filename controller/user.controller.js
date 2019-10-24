@@ -6,7 +6,8 @@ module.exports = {
     createUser : createUser,
     user_list : user_list,
     findUser : findUser,
-    delUser: delUser
+    delUser: delUser,
+    updateUser: updateUser
 }
 
 function createUser(username,password,email){
@@ -95,6 +96,24 @@ function delUser(username) {
             if (data) {
                 return Promise.resolve({
                     message: "xóa thành công"
+                })
+            }
+            else {
+                return new Promise.resolve({
+                    message: "user khong ton tai"
+                })
+            }
+        })
+        .catch(err => {
+            return Promise.reject(err);
+        });
+}
+function updateUser(username) {
+    return userModel.findOneAndUpdate({ username: username })
+        .then(data => {
+            if (data) {
+                return Promise.resolve({
+                    message: "update thành công"
                 })
             }
             else {
