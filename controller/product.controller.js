@@ -5,6 +5,7 @@ var productModel = modelData.productModel
 module.exports={
     createProduct: createProduct,
     product_list: product_list,
+    findProduct: findProduct,
 }
 function createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name) {
     return productModel.find({ product_id: product_id })
@@ -71,3 +72,23 @@ function product_list(){
 
     })
 }
+
+function findProduct(product_name) {
+    return productModel.findOne({ product_name: product_name })
+        .then(data => {
+            if (data) {
+                return Promise.resolve({
+                    data: data
+                })
+            }
+            else {
+                return new Promise.resolve({
+                    message: "sản phẩm khong ton tai"
+                })
+            }
+        })
+        .catch(err => {
+            return Promise.reject(err);
+        });
+}
+

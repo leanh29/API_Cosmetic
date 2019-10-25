@@ -3,6 +3,7 @@ var router = require("express").Router();
 
 router.post("/addProduct",addProduct);
 router.get("/getAllProduct",product_list);
+router.get("/getProduct/:product_name",findProduct);
 module.exports=router;
 
 function addProduct(req,res){
@@ -66,5 +67,21 @@ function product_list(req,res){
     })
     .catch(function(err){
         res.json(err);
+    })
+}
+function findProduct(req,res){
+    var product_name=req.query.product_name;
+    if(!product_name){
+        return res.json({
+            statusCode : 400,
+            message : "Bạn chưa nhập tên sản phẩm"
+        })
+    }
+    productController.findProduct(product_name)
+    .then(function(data){
+        return res.json(data);
+    })
+    .catch(function(err){
+        return res.json(err);
     })
 }
