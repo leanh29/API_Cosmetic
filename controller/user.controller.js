@@ -7,7 +7,8 @@ module.exports = {
     user_list: user_list,
     findUser: findUser,
     delUser: delUser,
-    updateUser: updateUser
+    updateUser: updateUser,
+    dangnhap:dangnhap
 }
 
 function createUser(email, username, password, sdt, location, gender) {
@@ -57,7 +58,34 @@ function createUser(email, username, password, sdt, location, gender) {
             return Promise.reject(err);
         })
 }
-
+function dangnhap(username,password) {
+    return userModel.findOne({ username: username })
+        .then(data => {
+            if (!data) {
+                return Promise.reject({
+                    message: "username không chính xác",
+                })
+            }
+            else {
+                return userModel.findOne({password})
+                .then(pass =>{
+                    if (!pass){
+                        return Promise.reject({
+                            message: "password không chính xác"
+                        })
+                    }
+                    else{
+                        return Promise.resolve({
+                            message: "đăng nhập thành công"
+                        })
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            return Promise.reject(err);
+        });
+}
 function user_list() {
     return userModel.find({}, (err, data) => {
         if (data.length > 0) {

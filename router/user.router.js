@@ -6,6 +6,7 @@ router.get("/getAllUsers", user_list);
 router.get("/getUser/:username",findUser);
 router.delete("/deleteUser/:username",delUser);
 router.put("/updateUser/:username",updateUser);
+router.get("/dangnhap/:thongtin",dangnhap);
 module.exports = router;
 
 function dangky (req, res) {
@@ -63,7 +64,29 @@ function dangky (req, res) {
     })
 
 }
-
+function dangnhap(req,res){
+    var username=req.query.username;
+    if(!username){
+        return res.json({
+            statusCode : 400,
+            message : "Bạn chưa nhập username"
+        })
+    }
+    var password=req.query.password;
+    if(!password){
+        return res.json({
+            statusCode : 400,
+            message : "Bạn chưa nhập password"
+        })
+    }
+    userController.dangnhap(username,password)
+    .then(function(data){
+        return res.json(data);
+    })
+    .catch(function(err){
+        return res.json(err);
+    })
+}
 function user_list(req,res){
     userController.user_list()
     .then(function(data){
