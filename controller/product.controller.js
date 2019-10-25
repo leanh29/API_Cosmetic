@@ -6,6 +6,7 @@ module.exports={
     createProduct: createProduct,
     product_list: product_list,
     findProduct: findProduct,
+    delProduct: delProduct
 }
 function createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name) {
     return productModel.find({ product_id: product_id })
