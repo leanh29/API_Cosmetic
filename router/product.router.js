@@ -4,7 +4,7 @@ var router = require("express").Router();
 router.post("/addProduct",addProduct);
 router.get("/getAllProduct",product_list);
 router.get("/getProduct/:product_name",findProduct);
-router.delete("deleteProduct/:product_name",delProduct);
+router.delete("/deleteProduct/:product_name",delProduct);
 module.exports=router;
 
 function addProduct(req,res){
@@ -95,7 +95,7 @@ function delProduct(req,res){
             message : "Bạn chưa nhập tên sản phẩm"
         })
     }
-    productController.delUser(product_name)
+    productController.delProduct(product_name)
     .then(function(data){
         return res.json(data);
     })
