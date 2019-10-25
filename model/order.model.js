@@ -16,6 +16,23 @@ var orderSchema = Schema({
                 type: Number,
                 require: true
             }
-        }]
-    
+        }],
+    check:[
+        {
+            check_id:{
+                type: Number,
+                require: true,
+                unique: true
+            },
+            amount:{
+                type: Number,
+                require: true,
+                unique: true
+            },
+            date:{
+                type: Date,
+                default: Date.now,
+            }
+        }
+    ]    
 })
