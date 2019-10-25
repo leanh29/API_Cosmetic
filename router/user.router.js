@@ -9,8 +9,17 @@ router.put("/updateUser/:username",updateUser);
 module.exports = router;
 
 function dangky (req, res) {
-    var username = req.body.username;
+    
     //console.log(username);
+    var email = req.body.email;
+    if(email == undefined){
+        res.json({
+            statusCode : 400,
+            message : "Bạn chưa nhập email"
+        })
+        return;
+    }
+    var username = req.body.username;
     if(username == undefined){
         res.json({
             statusCode : 400,
@@ -25,6 +34,9 @@ function dangky (req, res) {
         })
         return;
     }
+    var sdt = req.body.sdt;
+    var location = req.body.location;
+    var gender = req.body.gender;
 
     var password = req.body.password;
     if(password == undefined){
@@ -41,16 +53,9 @@ function dangky (req, res) {
         })
     }
     
-    var email = req.body.email;
-    if(email == undefined){
-        res.json({
-            statusCode : 400,
-            message : "Bạn chưa nhập email"
-        })
-        return;
-    }
+    
     //console.log("khong co j");
-    userController.createUser(username, password, email)
+    userController.createUser(email,username, password, sdt, location,gender)
     .then(function(data){
         res.json(data);
     })

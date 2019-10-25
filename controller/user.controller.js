@@ -10,7 +10,7 @@ module.exports = {
     updateUser: updateUser
 }
 
-function createUser(username,password,email){
+function createUser(email,username,password,sdt,location,gender){
     return userModel.find({email : email})
         .then(function(user){
             if(user.length > 0 ){
@@ -32,9 +32,12 @@ function createUser(username,password,email){
                     .digest('hex');
                     password = hash;
                     var user = new userModel({
+                        email : email,
                         username : username,
                         password : password,
-                        email : email
+                        sdt : sdt,
+                        location : location,
+                        gender : gender
                     })
                     user.save()
                         .then(function(user){

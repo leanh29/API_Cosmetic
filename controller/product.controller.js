@@ -92,3 +92,21 @@ function findProduct(product_name) {
         });
 }
 
+function delProduct(product_name) {
+    return userModel.findOneAndRemove({ product_name: product_name })
+        .then(data => {
+            if (data) {
+                return Promise.resolve({
+                    message: "xóa thành công"
+                })
+            }
+            else {
+                return new Promise.resolve({
+                    message: "sản phẩm không tồn tại"
+                })
+            }
+        })
+        .catch(err => {
+            return Promise.reject(err);
+        });
+}

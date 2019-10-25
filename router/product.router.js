@@ -4,6 +4,7 @@ var router = require("express").Router();
 router.post("/addProduct",addProduct);
 router.get("/getAllProduct",product_list);
 router.get("/getProduct/:product_name",findProduct);
+router.delete("deleteProduct/:product_name",delProduct);
 module.exports=router;
 
 function addProduct(req,res){
@@ -78,6 +79,23 @@ function findProduct(req,res){
         })
     }
     productController.findProduct(product_name)
+    .then(function(data){
+        return res.json(data);
+    })
+    .catch(function(err){
+        return res.json(err);
+    })
+}
+
+function delProduct(req,res){
+    var product_name=req.query.product_name;
+    if(!product_name){
+        return res.json({
+            statusCode : 400,
+            message : "Bạn chưa nhập tên sản phẩm"
+        })
+    }
+    productController.delUser(product_name)
     .then(function(data){
         return res.json(data);
     })
