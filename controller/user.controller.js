@@ -143,19 +143,21 @@ function delUser(username) {
             return Promise.reject(err);
         });
 }
-function updateUser(username, password) {
+function updateUser(username, password,sdt, location,gender) {
     return userModel.findOne({ username: username })
         .then(data => {
             if (data) {
-                return Promise((resolve, reject) => {
-                    var password
-                    return userModel.updateOne({ username: username }, { $set: { password: password } })
+                // console.log(data);
+                return new Promise((resolve, reject) => {
+                    return userModel.updateOne({ username: username }, { $set: { password: password, sdt:sdt, location:location, gender:gender } })
                         .then(() => {
                             data.username = username;
+                            console.log("aahahahahah",data);
                             return resolve(data);
                             
                         })
                         .catch((err) => {
+                            console.log(err);
                             return reject(err);
                         });
                 })

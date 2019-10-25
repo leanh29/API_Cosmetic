@@ -30,7 +30,8 @@ const productShema = Schema({
     cate_name:{
         type: String,
         require: true
-    }
+    },
+    sale_percent: Number
 })
 var productModel = mongoose.model("products",productShema);
 module.exports={

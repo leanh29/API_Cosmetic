@@ -53,7 +53,8 @@ function addProduct(req,res){
             message : "Bạn chưa nhập loại san pham"
         })
     }
-    productController.createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name)
+    var sale_percent= req.body.sale_percent;
+    productController.createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name,sale_percent)
     .then(function(data){
         return res.json(data);
     })

@@ -143,12 +143,15 @@ function updateUser(req,res){
     //         gender = req.body.gender
     // }
     var password = req.body.password
-    userController.updateUser(username,password)
+    var sdt = req.body.sdt
+    var location = req.body.location
+    var gender = req.body.gender
+    userController.updateUser(username,password,sdt,location,gender)
     .then(function(data){
         return res.json({
             data:data,
             statusCode: 200,
-            message: config.SUCCESS,
+            // message: config.SUCCESS
         });
         
     })

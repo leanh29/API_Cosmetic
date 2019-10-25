@@ -8,7 +8,7 @@ module.exports={
     findProduct: findProduct,
     delProduct: delProduct
 }
-function createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name) {
+function createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name,sale_percent) {
     return productModel.find({ product_id: product_id })
         .then(function (productid) {
             if (productid.length > 0) {
@@ -38,6 +38,7 @@ function createProduct(product_id,product_name,unit,price,image,discription,stat
                                 status: status,
                                 link: link,
                                 cate_name: cate_name,
+                                sale_percent: sale_percent
                             })
                            
                             return Product.save()
