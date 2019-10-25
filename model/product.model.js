@@ -25,7 +25,7 @@ const productShema = Schema({
     }
         ,
     discription: String,
-    status: String,
+    status: Number,
     link: String,
     cate_name:{
         type: String,
