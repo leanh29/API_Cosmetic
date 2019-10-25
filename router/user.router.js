@@ -9,35 +9,31 @@ router.put("/updateUser/:username",updateUser);
 module.exports = router;
 
 function dangky (req, res) {
-    
-    //console.log(username);
     var email = req.body.email;
     if(email == undefined){
         res.json({
             statusCode : 400,
             message : "Bạn chưa nhập email"
         })
-        return;
+        //return;
     }
+    console.log(email);
     var username = req.body.username;
     if(username == undefined){
         res.json({
             statusCode : 400,
             message : "Bạn chưa nhập username"
         })
-        return;
+        //return;
     }
     if(username.length < 1 || username.length > 15){
         res.json({
             statusCode : 400,
             message : "username phải từ 1 đến 15 ký tự"
         })
-        return;
+        //return;
     }
-    var sdt = req.body.sdt;
-    var location = req.body.location;
-    var gender = req.body.gender;
-
+    
     var password = req.body.password;
     if(password == undefined){
         res.json({
@@ -53,7 +49,10 @@ function dangky (req, res) {
         })
     }
     
-    
+    var sdt = req.body.sdt;
+    var location = req.body.location;
+    var gender = req.body.gender;
+
     //console.log("khong co j");
     userController.createUser(email,username, password, sdt, location,gender)
     .then(function(data){

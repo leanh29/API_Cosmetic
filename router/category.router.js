@@ -15,6 +15,7 @@ function addCategory(req,res){
             message : "Bạn chưa nhập ma loai san pham"
         })
     }
+    console.log(cate_id);
     var cate_name= req.body.cate_name;
     if(cate_name == undefined){
         return res.json({
@@ -29,6 +30,7 @@ function addCategory(req,res){
             message : "Bạn chưa them hinh san pham"
         })
     }
+    console.log(image);
     cateController.createCategory(cate_id,cate_name,image)
     .then(function(data){
         return res.json(data);

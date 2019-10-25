@@ -3,73 +3,73 @@ var crypto = require('crypto');
 var userModel = modelData.userModel;
 
 module.exports = {
-    createUser : createUser,
-    user_list : user_list,
-    findUser : findUser,
+    createUser: createUser,
+    user_list: user_list,
+    findUser: findUser,
     delUser: delUser,
     updateUser: updateUser
 }
 
-function createUser(email,username,password,sdt,location,gender){
-    return userModel.find({email : email})
-        .then(function(user){
-            if(user.length > 0 ){
+function createUser(email, username, password, sdt, location, gender) {
+    return userModel.find({ email: email })
+        .then(function (user) {
+            if (user.length > 0) {
                 return Promise.reject({
-                    statusCode : 400,
-                    message : "email đã tồn tại"
+                    statusCode: 400,
+                    message: "email đã tồn tại"
                 })
-            }else{
-               return userModel.find({username : username})
-               .then(function(data){
-                if(data.length > 0){
-                    return Promise.reject({
-                        statusCode : 400,
-                        message : "user đã tồn tại"
+            } else {
+                return userModel.find({ username: username })
+                    .then(function (data) {
+                        if (data.length > 0) {
+                            return Promise.reject({
+                                statusCode: 400,
+                                message: "username đã tồn tại"
+                            })
+                        } else {
+                            var hash = crypto.createHmac('sha256', "MonAn")
+                                .update(password)
+                                .digest('hex');
+                            password = hash;
+                            var user = new userModel({
+                                email: email,
+                                username: username,
+                                password: password,
+                                sdt: sdt,
+                                location: location,
+                                gender: gender
+                            })
+                            user.save()
+                                .then(function (user) {
+                                    return Promise.resolve(user);
+                                })
+                                .catch(function (err) {
+                                    return Promise.reject(err);
+                                })
+                        }
                     })
-                }else{
-                    var hash = crypto.createHmac('sha256', "MonAn")
-                    .update(password)
-                    .digest('hex');
-                    password = hash;
-                    var user = new userModel({
-                        email : email,
-                        username : username,
-                        password : password,
-                        sdt : sdt,
-                        location : location,
-                        gender : gender
+                    .catch(function (err) {
+                        return Promise.reject(err);
                     })
-                    user.save()
-                        .then(function(user){
-                            return Promise.resolve(user);
-                        })
-                        .catch(function(err){
-                            return Promise.reject(err);
-                        })   
-                    }
-                })
-                .catch(function(err){
-                   return Promise.reject(err);
-               })
             }
         })
-        .catch(function(err){
+        .catch(function (err) {
             return Promise.reject(err);
         })
 }
 
-function user_list(){
-    return userModel.find({},(err,data)=>{
-        if(data.length > 0){
+function user_list() {
+    return userModel.find({}, (err, data) => {
+        if (data.length > 0) {
             return Promise.resolve({
-                message : "danh sách thông tin người dùng",
-                data : data
+                message: "danh sách thông tin người dùng",
+                data: data
             });
 
         }
-        else{
+        else {
             return Promise.resolve({
-                message : "danh sách người dùng trống"
+                message: "danh sách người dùng trống"
             })
         }
 
@@ -111,19 +111,19 @@ function delUser(username) {
             return Promise.reject(err);
         });
 }
-function updateUser(username,email) {
-    return userModel.findOne({username:username})
+function updateUser(username, email) {
+    return userModel.findOne({ username: username })
         .then(data => {
             if (data) {
-                return Promise((resolve, reject)=>{
-                    return userModel.updateOne({username:username},{ $set: {email:email}})
-                    .then(() => {
-                        data.email = email;
-                        return resolve(data);
-                    })
-                    .catch((err) => {
-                        return reject(err);
-                    });
+                return Promise((resolve, reject) => {
+                    return userModel.updateOne({ username: username }, { $set: { email: email } })
+                        .then(() => {
+                            data.email = email;
+                            return resolve(data);
+                        })
+                        .catch((err) => {
+                            return reject(err);
+                        });
                 })
             }
             else {

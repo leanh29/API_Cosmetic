@@ -19,7 +19,7 @@ function createCategory(cate_id,cate_name,image) {
             }
             else{
                 return cateModel.find({ cate_name: cate_name })
-                .then(function(cate_name){
+                .then(function(catename){
                     if (catename.length > 0) {
                         return Promise.reject({
                             statusCode: 400,
@@ -27,7 +27,7 @@ function createCategory(cate_id,cate_name,image) {
                         })
                     }
                     else {
-                        return new Promise((resolve, reject) => {
+                        //return new Promise((resolve, reject) => {
                             var Cate = new cateModel({
 
                                 cate_id:cate_id,
@@ -36,14 +36,14 @@ function createCategory(cate_id,cate_name,image) {
                                 
                             })
                             console.log(Cate)
-                            return Cate.save()
+                            Cate.save()
                                 .then(function (addCate) {
                                     return resolve(addCate);
                                 })
                                 .catch(function (err) {
                                     return reject(err);
                                 })
-                        })
+                        //})
                     };
                 })
             }        
