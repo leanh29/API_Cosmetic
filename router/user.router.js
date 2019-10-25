@@ -5,7 +5,7 @@ router.post("/dangky", dangky);
 router.get("/getAllUsers", user_list);
 router.get("/getUser/:username",findUser);
 router.delete("/deleteUser/:username",delUser);
-router.put("/updateUser/:username",updateUser);
+router.put("/updateUser/:thongtin",updateUser);
 router.get("/dangnhap/:thongtin",dangnhap);
 module.exports = router;
 
@@ -129,23 +129,30 @@ function delUser(req,res){
     })
 }
 function updateUser(req,res){
-    var username=req.params.username;
+    var username=req.query.username;
     // if(!username){
     //     return res.json({
     //         statusCode : 400,
     //         message : "Bạn chưa nhập username"
     //     })
     // }
-    let email=req.body.email;
-    userController.updateUser(username,email)
+    // var item =  {
+    //         password = req.body.password,
+    //         sdt = req.body.sdt,
+    //         location = req.body.location,
+    //         gender = req.body.gender
+    // }
+    var password = req.body.password
+    userController.updateUser(username,password)
     .then(function(data){
-        
         return res.json({
             data:data,
             statusCode: 200,
             message: config.SUCCESS,
         });
+        
     })
+    //console.log("edit thành công")
     .catch(function(err){
         return res.json(err);
     })

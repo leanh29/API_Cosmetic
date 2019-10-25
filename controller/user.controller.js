@@ -143,15 +143,17 @@ function delUser(username) {
             return Promise.reject(err);
         });
 }
-function updateUser(username, email) {
+function updateUser(username, password) {
     return userModel.findOne({ username: username })
         .then(data => {
             if (data) {
                 return Promise((resolve, reject) => {
-                    return userModel.updateOne({ username: username }, { $set: { email: email } })
+                    var password
+                    return userModel.updateOne({ username: username }, { $set: { password: password } })
                         .then(() => {
-                            data.email = email;
+                            data.username = username;
                             return resolve(data);
+                            
                         })
                         .catch((err) => {
                             return reject(err);
