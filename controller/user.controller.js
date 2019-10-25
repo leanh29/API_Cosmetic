@@ -28,10 +28,10 @@ function createUser(email, username, password, sdt, location, gender) {
                                 message: "username đã tồn tại"
                             })
                         } else {
-                            var hash = crypto.createHmac('sha256', "MonAn")
-                                .update(password)
-                                .digest('hex');
-                            password = hash;
+                            // var hash = crypto.createHmac('sha256', "MonAn")
+                            //     .update(password)
+                            //     .digest('hex');
+                            // password = hash;
                             var user = new userModel({
                                 email: email,
                                 username: username,
