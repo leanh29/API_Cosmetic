@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const productShema = Schema({
     product_id:{
-        type: Number,
+        type: String,
         require: true,
         unique: true
     },
@@ -31,7 +31,12 @@ const productShema = Schema({
         type: String,
         require: true
     },
-    sale_percent: Number
+    sale_percent: Number,
+    order_infor:{
+        type: Schema.Types.ObjectId,
+        ref: 'orders'
+
+    }
 })
 var productModel = mongoose.model("products",productShema);
 module.exports={

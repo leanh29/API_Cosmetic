@@ -14,7 +14,7 @@ function createProduct(product_id,product_name,unit,price,image,discription,stat
             if (productid.length > 0) {
                 return Promise.reject({
                     statusCode: 400,
-                    message: "ma san pham da ton tai"
+                    message: "ma san pham da ton tai",
                 })
             }
             else{
@@ -23,7 +23,7 @@ function createProduct(product_id,product_name,unit,price,image,discription,stat
                     if (productname.length > 0) {
                         return Promise.reject({
                             statusCode: 400,
-                            message: " san pham da ton tai"
+                            message: " san pham da ton tai",
                         })
                     }
                     else {

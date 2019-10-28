@@ -6,7 +6,7 @@ var orderSchema = Schema({
         unique: true,
         require: true,
     },
-    detail: [
+    products: [
         {
             product_id: {
                 type: [Schema.Types.ObjectId],
@@ -17,22 +17,26 @@ var orderSchema = Schema({
                 require: true
             }
         }],
-    check:[
-        {
-            check_id:{
-                type: Number,
-                require: true,
-                unique: true
-            },
-            amount:{
-                type: Number,
-                require: true,
-                unique: true
-            },
-            date:{
-                type: Date,
-                default: Date.now,
-            }
-        }
-    ]    
+    // check:[
+    //     {
+    //         check_id:{
+    //             type: Number,
+    //             require: true,
+    //             unique: true
+    //         },
+    //         amount:{
+    //             type: Number,
+    //             require: true,
+    //             unique: true
+    //         },
+    //         date:{
+    //             type: Date,
+    //             default: Date.now,
+    //         }
+    //     }
+    // ]    
 })
+var orderModel = mongoose.model("orders",orderSchema);
+module.exports={
+    orderModel: orderModel
+}
