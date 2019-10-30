@@ -57,7 +57,7 @@ function cate_list() {
         .then(data => {
             if (data.length > 0) {
                 return Promise.resolve({
-                    data: data
+                    data
                 })
             }
             else {
