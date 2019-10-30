@@ -57,7 +57,6 @@ function cate_list() {
         .then(data => {
             if (data.length > 0) {
                 return Promise.resolve({
-                    message: "danh sach loai san pham",
                     data: data
                 })
             }

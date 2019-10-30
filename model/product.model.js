@@ -32,11 +32,6 @@ const productShema = Schema({
         require: true
     },
     sale_percent: Number,
-    order_infor:{
-        type: Schema.Types.ObjectId,
-        ref: 'orders'
-
-    }
 })
 var productModel = mongoose.model("products",productShema);
 module.exports={
