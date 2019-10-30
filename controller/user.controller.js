@@ -80,7 +80,8 @@ function dangnhap(username,password) {
                     }
                     else{
                         return Promise.resolve({
-                            message: "đăng nhập thành công"
+                            message: "đăng nhập thành công",
+                            data
                         })
                     }
                 })
