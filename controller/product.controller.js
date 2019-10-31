@@ -121,7 +121,7 @@ function findProductByCate(cate_id) {
         .then(data => {
             if (data) {
                 return Promise.resolve({
-                    data: data
+                    data
                 })
             }
             else {
