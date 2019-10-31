@@ -4,6 +4,7 @@ var router = require("express").Router();
 router.post("/addProduct",addProduct);
 router.get("/getAllProduct",product_list);
 router.get("/getProduct/:product_name",findProduct);
+router.get("/getProduct/:cate_id",findProductByCate);
 router.delete("/deleteProduct/:product_name",delProduct);
 //router.post("/createDetail",productController.newDetail);
 module.exports=router;
@@ -47,15 +48,15 @@ function addProduct(req,res){
     var discription= req.body.discription;
     var status= req.body.status;
     var link= req.body.link;
-    var cate_name= req.body.cate_name;
-    if(cate_name == undefined){
+    var cate_id= req.body.cate_id;
+    if(cate_id == undefined){
         return res.json({
             statusCode : 400,
             message : "Bạn chưa nhập loại san pham"
         })
     }
     var sale_percent= req.body.sale_percent;
-    productController.createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name,sale_percent)
+    productController.createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_id,sale_percent)
     .then(function(data){
         return res.json(data);
     })
@@ -88,7 +89,22 @@ function findProduct(req,res){
         return res.json(err);
     })
 }
-
+function findProductByCate(req,res){
+    var cate_id=req.query.cate_id;
+    if(!cate_id){
+        return res.json({
+            statusCode : 400,
+            message : "Bạn chưa nhập tên loại sản phẩm"
+        })
+    }
+    productController.findProductByCate(cate_id)
+    .then(function(data){
+        return res.json(data);
+    })
+    .catch(function(err){
+        return res.json(err);
+    })
+}
 function delProduct(req,res){
     var product_name=req.query.product_name;
     if(!product_name){

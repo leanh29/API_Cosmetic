@@ -9,7 +9,8 @@ module.exports={
     createProduct: createProduct,
     product_list: product_list,
     findProduct: findProduct,
-    delProduct: delProduct
+    delProduct: delProduct,
+    findProductByCate:findProductByCate
 }
 function createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name,sale_percent) {
     return productModel.find({ product_id: product_id })
@@ -40,7 +41,7 @@ function createProduct(product_id,product_name,unit,price,image,discription,stat
                                 discription: discription,
                                 status: status,
                                 link: link,
-                                cate_name: cate_name,
+                                cate_id: cate_id,
                                 sale_percent: sale_percent
                             })
                            
@@ -115,7 +116,24 @@ function findProduct(product_name) {
             return Promise.reject(err);
         });
 }
-
+function findProductByCate(cate_id) {
+    return productModel.find({ cate_id: cate_id})
+        .then(data => {
+            if (data) {
+                return Promise.resolve({
+                    data: data
+                })
+            }
+            else {
+                return new Promise.resolve({
+                    message: "sản phẩm khong ton tai"
+                })
+            }
+        })
+        .catch(err => {
+            return Promise.reject(err);
+        });
+}
 function delProduct(product_name) {
     return userModel.findOneAndRemove({ product_name: product_name })
         .then(data => {
