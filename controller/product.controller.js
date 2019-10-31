@@ -99,40 +99,37 @@ function product_list(){
 }
 
 function findProduct(product_name) {
-    return productModel.findOne({ product_name: product_name })
-        .then(data => {
-            if (data) {
-                return Promise.resolve({
-                    data: data
-                })
-            }
-            else {
-                return new Promise.resolve({
-                    message: "sản phẩm khong ton tai"
-                })
-            }
-        })
-        .catch(err => {
-            return Promise.reject(err);
-        });
+    return productModel.findOne({ product_name: product_name },(err,data)=>{
+        if(data.length > 0){
+            return Promise.resolve({
+                data : data
+            });
+
+        }
+        else{
+            return Promise.resolve({
+                message : "danh sách sản phẩm trống"
+            })
+        }
+
+    })   
 }
 function findProductByCate(cate_id) {
-    return productModel.find({ cate_id: cate_id})
-        .then(data => {
-            if (data) {
-                return Promise.resolve({
-                    data
-                })
-            }
-            else {
-                return new Promise.resolve({
-                    message: "sản phẩm khong ton tai"
-                })
-            }
-        })
-        .catch(err => {
-            return Promise.reject(err);
-        });
+    return productModel.find({ cate_id: cate_id},(err,data)=>{
+        if(data.length > 0){
+            return Promise.resolve({
+                data : data
+            });
+
+        }
+        else{
+            return Promise.resolve({
+                message : "danh sách sản phẩm trống"
+            })
+        }
+
+    })
+        
 }
 function delProduct(product_name) {
     return userModel.findOneAndRemove({ product_name: product_name })
