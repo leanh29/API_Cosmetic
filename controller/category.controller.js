@@ -56,7 +56,7 @@ function cate_list() {
     return cateModel.find({},(err,data)=>{
         if(data.length > 0){
             return Promise.resolve({
-                data : data
+                data
             });
 
         }
