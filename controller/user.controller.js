@@ -58,6 +58,7 @@ function createUser(email, username, password, sdt, location, gender) {
             return Promise.reject(err);
         })
 }
+
 function dangnhap(username,password) {
     return userModel.findOne({ username: username })
         .then(data => {

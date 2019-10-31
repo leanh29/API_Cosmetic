@@ -53,23 +53,21 @@ function createCategory(cate_id,cate_name,image) {
         })
 }
 function cate_list() {
-    return cateModel.find({})
-        .then(data => {
-            if (data.length > 0) {
-                return Promise.resolve({
-                    data
-                })
-            }
-            else {
-                return Promise.resolve({
-                    message: "danh sach loai san pham trong"
-                })
+    return cateModel.find({},(err,data)=>{
+        if(data.length > 0){
+            return Promise.resolve({
+                data : data
+            });
 
-            }
-        })
-        .catch(err => {
-            return Promise.reject(err);
-        });
+        }
+        else{
+            return Promise.resolve({
+                message : "danh sách sản phẩm trống"
+            })
+        }
+
+    })
+       
 }
 
 function findCate(cate_name) {

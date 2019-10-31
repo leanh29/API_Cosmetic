@@ -6,18 +6,18 @@ var orderSchema = Schema({
         unique: true,
         require: true,
     },
-    products: [
+    detail: [
         {
-            product_id: {
-                type: [Schema.Types.ObjectId],
-                ref: 'products'
-            },
-            quantity: {
-                type: Number,
-                require: true
-            }
-        }],
-    // check:[
+            type: Schema.Types.ObjectId,
+            ref:'details'
+        }
+    ]
+})
+var orderModel = mongoose.model("orders", orderSchema);
+module.exports = {
+    orderModel: orderModel
+}
+// check:[
     //     {
     //         check_id:{
     //             type: Number,
@@ -35,8 +35,3 @@ var orderSchema = Schema({
     //         }
     //     }
     // ]    
-})
-var orderModel = mongoose.model("orders",orderSchema);
-module.exports={
-    orderModel: orderModel
-}

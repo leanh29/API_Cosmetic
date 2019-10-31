@@ -5,6 +5,7 @@ router.post("/addProduct",addProduct);
 router.get("/getAllProduct",product_list);
 router.get("/getProduct/:product_name",findProduct);
 router.delete("/deleteProduct/:product_name",delProduct);
+//router.post("/createDetail",productController.newDetail);
 module.exports=router;
 
 function addProduct(req,res){

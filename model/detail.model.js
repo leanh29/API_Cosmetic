@@ -5,15 +5,19 @@ var detailSchema = Schema({
         type:String,
         require:true,
     },
-    product:{
-        type: Schema.Types.ObjectId,
-        ref:'products'
+    // product:{
+    //     type: Schema.Types.ObjectId,
+    //     ref:'products'
+    // },
+    order:{
+        type:Schema.Types.ObjectId,
+        ref:'orders'
     },
     quantity:{
-        type: Number
+        type: Number    
     }
 })
-var detailModel = mongoose.model("details",orderSchema);
+var detailModel = mongoose.model("details",detailSchema);
 module.exports={
     detailModel: detailModel
 }

@@ -1,6 +1,9 @@
 var modelData = require("../model/product.model")
 var productModel = modelData.productModel
-
+var model = require("../model/detail.model")
+var detailModel = model.detailModel
+// var Data = require("../model/order.model")
+// var orderModel = Data.orderModel
 
 module.exports={
     createProduct: createProduct,
@@ -57,6 +60,25 @@ function createProduct(product_id,product_name,unit,price,image,discription,stat
             return Promise.reject(err);
         })
 }
+// const newDetail = async (req, res, next) => {
+//     const userId = req.params.id;
+//     const productId = req.body.product;
+//     //create order
+//     const newDetail = new detailModel(req.body);
+
+//     // get user
+//     const user = await User.findById(userId);
+//     const product = await productModel.findById(productId);
+//     console.log(product);
+//     newDetail.product = product;
+//     //save order
+//     await newDetail.save();
+
+//     //product.detail.push(newDetail);
+//     await product.save();
+//     return res.status(201).json(newDetail);
+// };
+//module.exports.newDetail = newDetail;
 function product_list(){
     return productModel.find({},(err,data)=>{
         if(data.length > 0){
