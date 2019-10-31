@@ -12,7 +12,7 @@ module.exports={
     delProduct: delProduct,
     findProductByCate:findProductByCate
 }
-function createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_name,sale_percent) {
+function createProduct(product_id,product_name,unit,price,image,discription,status,link,cate_id,sale_percent) {
     return productModel.find({ product_id: product_id })
         .then(function (productid) {
             if (productid.length > 0) {
