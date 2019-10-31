@@ -88,8 +88,8 @@ function findCate(cate_name) {
             return Promise.reject(err);
         });
 }
-function delCate(cate_name) {
-    return cateModel.findOneAndRemove({ cate_name: cate_name })
+function delCate(cate_id) {
+    return cateModel.findOneAndRemove({ cate_id: cate_id })
         .then(data => {
             if (data) {
                 return Promise.resolve({

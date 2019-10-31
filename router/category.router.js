@@ -68,14 +68,14 @@ function findCate(req,res){
 }
 
 function deleteCate(req,res){
-    var cate_name=req.query.cate_name;
-    if(!cate_name){
+    var cate_id=req.query.cate_id;
+    if(!cate_id){
         return res.json({
             statusCode : 400,
             message : "Bạn chưa nhập ten loai san pham"
         })
     }
-    cateController.delCate(cate_name)
+    cateController.delCate(cate_id)
     .then(function(data){
         return res.json(data);
     })
