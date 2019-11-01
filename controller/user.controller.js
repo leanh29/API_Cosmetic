@@ -8,7 +8,7 @@ module.exports = {
     findUser: findUser,
     delUser: delUser,
     updateUser: updateUser,
-    dangnhap:dangnhap
+    dangnhap: dangnhap
 }
 
 function createUser(email, username, password, sdt, location, gender) {
@@ -28,10 +28,10 @@ function createUser(email, username, password, sdt, location, gender) {
                                 message: "username đã tồn tại"
                             })
                         } else {
-                            var hash = crypto.createHmac('sha256', "MonAn")
-                                .update(password)
-                                .digest('hex');
-                            password = hash;
+                            // var hash = crypto.createHmac('sha256', "MonAn")
+                            //     .update(password)
+                            //     .digest('hex');
+                            // password = hash;
                             var user = new userModel({
                                 email: email,
                                 username: username,
@@ -59,7 +59,7 @@ function createUser(email, username, password, sdt, location, gender) {
         })
 }
 
-function dangnhap(username,password) {
+function dangnhap(username, password) {
     return userModel.findOne({ username: username })
         .then(data => {
             if (!data) {
@@ -68,24 +68,24 @@ function dangnhap(username,password) {
                 })
             }
             else {
-                var hash = crypto.createHmac('sha256', "MonAn")
-                                .update(password)
-                                .digest('hex');
-                            password = hash;
-                return userModel.findOne({password})
-                .then(pass =>{
-                    if (!pass){
-                        return Promise.reject({
-                            message: "password không chính xác"
-                        })
-                    }
-                    else{
-                        return Promise.resolve({
-                            message: "đăng nhập thành công",
-                            data
-                        })
-                    }
-                })
+                // var hash = crypto.createHmac('sha256', "MonAn")
+                //                 .update(password)
+                //                 .digest('hex');
+                //             password = hash;
+                return userModel.findOne({ password })
+                    .then(pass => {
+                        if (!pass) {
+                            return Promise.reject({
+                                message: "password không chính xác"
+                            })
+                        }
+                        else {
+                            return Promise.resolve({
+                                message: "đăng nhập thành công",
+                                data
+                            })
+                        }
+                    })
             }
         })
         .catch(err => {
@@ -163,32 +163,61 @@ function delUser(username) {
             return Promise.reject(err);
         });
 }
-function updateUser(username, password,sdt, location,gender) {
-    return userModel.findOne({ username: username })
+// function updateUsers(username, password,sdt, location,gender) {
+//     return userModel.findOne({ username: username })
+//         .then(data => {
+//             if (data) {
+//                 // console.log(data);
+//                 return new Promise((resolve, reject) => {
+//                     var hash = crypto.createHmac('sha256', "users")
+//                                 .update(password)
+//                                 .digest('hex');
+//                             password = hash;
+//                     return userModel.updateOne({ username: username }, { $set: { password: password, sdt:sdt, location:location, gender:gender } })
+//                         .then(() => {
+//                             data.username = username;
+//                             console.log("aahahahahah",data);
+//                             return resolve(data);                 
+//                         })
+//                         .catch((err) => {
+//                             console.log(err);
+//                             return reject(err);
+//                         });
+//                 })
+//             }
+//             else {
+//                 return new Promise.resolve({
+//                     message: "user khong ton tai"
+//                 })
+//             }
+//         })
+//         .catch(err => {
+//             return Promise.reject(err);
+//         });
+// }
+function updateUser(username, old_password, new_password, sdt, location, gender) {
+    return userModel.findOne({ username: username }, { password: old_password })
         .then(data => {
-            if (data) {
-                // console.log(data);
-                return new Promise((resolve, reject) => {
-                    var hash = crypto.createHmac('sha256', "MonAn")
-                                .update(password)
-                                .digest('hex');
-                            password = hash;
-                    return userModel.updateOne({ username: username }, { $set: { password: password, sdt:sdt, location:location, gender:gender } })
-                        .then(() => {
-                            data.username = username;
-                            console.log("aahahahahah",data);
-                            return resolve(data);                 
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                            return reject(err);
-                        });
+            if (!data) {
+                return Promise.reject({
+                    message: "username không chính xác",
                 })
             }
             else {
-                return new Promise.resolve({
-                    message: "user khong ton tai"
-                })
+                // var hash = crypto.createHmac('sha256', "MonAn")
+                //                 .update(old_password)
+                //                 .digest('hex');
+                //                 old_password = hash;
+                return userModel.updateOne({ username: username }, { $set: { password: new_password, sdt: sdt, location: location, gender: gender } })
+                    .then(() => {
+                        data.username = username;
+                        console.log("aahahahahah", data);
+                        return resolve(data);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        return reject(err);
+                    });
             }
         })
         .catch(err => {

@@ -130,6 +130,13 @@ function delUser(req,res){
 }
 function updateUser(req,res){
     var username=req.query.username;
+    var old_password=req.query.old_password;
+    // if(!password){
+    //     return res.json({
+    //         statusCode : 400,
+    //         message : "Bạn chưa nhập password"
+    //     })
+    // }
     // if(!username){
     //     return res.json({
     //         statusCode : 400,
@@ -142,18 +149,17 @@ function updateUser(req,res){
     //         location = req.body.location,
     //         gender = req.body.gender
     // }
-    var password = req.body.password
+    var new_password = req.body.new_password
     var sdt = req.body.sdt
     var location = req.body.location
     var gender = req.body.gender
-    userController.updateUser(username,password,sdt,location,gender)
+    userController.updateUser(username,old_password,new_password,sdt,location,gender)
     .then(function(data){
         return res.json({
             data:data,
             statusCode: 200,
             // message: config.SUCCESS
         });
-        
     })
     //console.log("edit thành công")
     .catch(function(err){
