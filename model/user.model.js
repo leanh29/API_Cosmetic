@@ -15,10 +15,12 @@ var userSchema =  Schema({
     sdt: String,
     location: String,
     gender: String,
-    order:[{
-        type: Schema.Types.ObjectId,
-        ref: 'orders'
-    }]
+    orders: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'orders'
+        }
+    ],
 });
 
 var userModel = mongoose.model("users",userSchema);

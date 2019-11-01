@@ -1,59 +1,71 @@
 const mongoose = require('mongoose');
 //const detailModel = require('../model/detail.model');
-const modelData = require('../model/order.model')
-const orderModel = modelData.orderModel
-var Data = require("../model/product.model")
-var productModel = Data.productModel
-var model = require("../model/detail.model")
-var detailModel = model.detailModel
-var user = require("../model/user.model")
-var userModel = user.userModel
+const dataOrder = require('../model/order.model')
+const orderModel = dataOrder.orderModel
+var dataProduct = require("../model/product.model")
+var productModel = dataProduct.productModel
+// var model = require("../model/detail.model")
+// var detailModel = model.detailModel
+var dataUser = require("../model/user.model")
+var userModel = dataUser.userModel
 
-const create = (req, res, next) => {
-    //console.log(req.body);
+const createOrder = async (req, res, next) => {
     const userId = req.params.id;
-    // get user
-    const user = userModel.findById(userId);
-    orderModel.create(req.body, (err, post) => {
-        if (err) return next(err);
-        res.json(post);
-    })
-    // var order = new orderModel(req.body);
-    // return order.save();
-};
-module.exports.create = create;
-
-
-const newDetail = async (req, res, next) => {
-    const userId = req.params.id;
-    console.log(userId);
-    const orderId = req.params.id1;
-    console.log(orderId)
-    const productId = req.body.product;
     //create order
-    const newDetail = new detailModel(req.body);
-
+    const newOrder = new orderModel(req.body);
     // get user
     const user = await userModel.findById(userId);
-    const order = await orderModel.findById(orderId)
-    const product = await productModel.findById(productId);
-    console.log(product);
-    newDetail.product = product;
+    
+    newOrder.user_id = user;
     //save order
-    await newDetail.save();
-
-    order.detail.push(newDetail);
-    await product.save();
-    return res.status(201).json(order);
+    await newOrder.save();
+    //user.orders=newOrder;
+    console.log(user.username);
+    await user.orders.push(newOrder);
+    userPush = user.update({_id:userId},{$set: {orders:newOrder}})
+    console.log("_____________",userPush)
+    //await product.save();
+    return res.status(201).json(newOrder);
 };
-module.exports.newDetail = newDetail;
-
-const getOrderDetail = async (req, res, next) => {
-    const orderId = req.params.id;
-    const order = await orderModel.findById(orderId).populate('detail');
-    return res.status(200).json(order);
+module.exports.createOrder = createOrder;
+const getUserOrder = async (req, res, next) => {
+    const userId = req.params.id;
+    const user = await userModel.findById(userId).populate('orders');
+    console.log("============",user.orders);
+    return res.status(200).json(user);
 };
-module.exports.getOrderDetail = getOrderDetail;
+module.exports.getUserOrder = getUserOrder;
+// const newDetail = async (req, res, next) => {
+//     const userId = req.params.id;
+//     console.log(userId);
+//     const orderId = req.params.id1;
+//     console.log(orderId)
+//     const productId = req.body.product;
+//     //create order
+//     const newDetail = new detailModel(req.body);
+
+//     // get user
+//     const user = await userModel.findById(userId);
+//     console.log(user)
+//     const order = await orderModel.findById(orderId)
+//     const product = await productModel.findById(productId);
+//     console.log(product);
+//     newDetail.product = product;
+//     //save order
+//     await newDetail.save();
+
+//     order.detail.push(newDetail);
+//     await product.save();
+//     return res.status(201).json(order);
+// };
+// module.exports.newDetail = newDetail;
+
+// const getOrderDetail = async (req, res, next) => {
+//     const orderId = req.params.id;
+//     const order = await orderModel.findById(orderId).populate('detail');
+//     return res.status(200).json(order);
+// };
+// module.exports.getOrderDetail = getOrderDetail;
 
 
 

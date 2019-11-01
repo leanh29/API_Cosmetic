@@ -8,12 +8,13 @@ var router = require("express").Router();
 // });
 
 //router.get('/getAllOrder',orderController.getAll);
-router.post('/createOrder/:id',orderController.create);
+router.post('/createOrder/:id',orderController.createOrder);
+router.get('/userOrder/:id',orderController.getUserOrder);
 // router.get('/user/:id',UserController.getId);
 // router.put('/user/:id',UserController.update);
 // router.delete('/user/:id',UserController.remove);
 
-router.post('/createOrder/:id/:id1',orderController.newDetail);
-router.get('/orderDetail/:id',orderController.getOrderDetail);
+//router.post('/createOrder/:id/:id1',orderController.newDetail);
+//router.get('/orderDetail/:id',orderController.getOrderDetail);
 module.exports=router;
 

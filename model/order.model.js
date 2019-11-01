@@ -11,7 +11,11 @@ var orderSchema = Schema({
             type: Schema.Types.ObjectId,
             ref:'details'
         }
-    ]
+    ],
+    user_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    },
 })
 var orderModel = mongoose.model("orders", orderSchema);
 module.exports = {

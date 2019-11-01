@@ -127,6 +127,24 @@ function findUser(username) {
             return Promise.reject(err);
         });
 }
+// function findUserById(userId) {
+//     return userModel.findById({ username: username })
+//         .then(data => {
+//             if (data) {
+//                 return Promise.resolve({
+//                     data: data
+//                 })
+//             }
+//             else {
+//                 return new Promise.resolve({
+//                     message: "user khong ton tai"
+//                 })
+//             }
+//         })
+//         .catch(err => {
+//             return Promise.reject(err);
+//         });
+// }
 function delUser(username) {
     return userModel.findOneAndRemove({ username: username })
         .then(data => {
@@ -151,12 +169,15 @@ function updateUser(username, password,sdt, location,gender) {
             if (data) {
                 // console.log(data);
                 return new Promise((resolve, reject) => {
+                    var hash = crypto.createHmac('sha256', "MonAn")
+                                .update(password)
+                                .digest('hex');
+                            password = hash;
                     return userModel.updateOne({ username: username }, { $set: { password: password, sdt:sdt, location:location, gender:gender } })
                         .then(() => {
                             data.username = username;
                             console.log("aahahahahah",data);
-                            return resolve(data);
-                            
+                            return resolve(data);                 
                         })
                         .catch((err) => {
                             console.log(err);
