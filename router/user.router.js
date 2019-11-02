@@ -7,6 +7,7 @@ router.get("/getUser/:username",findUser);
 router.delete("/deleteUser/:username",delUser);
 router.put("/updateUser/:thongtin",updateUser);
 router.get("/dangnhap/:thongtin",dangnhap);
+router.post("/dangnhap2/:thongtin",dangnhap);
 module.exports = router;
 
 function dangky (req, res) {
