@@ -52,31 +52,48 @@ module.exports.createDetail = createDetail;
 
 const getOrderDetail = async (req, res, next) => {
     const orderId = req.params.id1;
-    const order=await orderModel.findById(orderId).populate({ path: 'details', model: detailModel})
-    const copyproduct = [];
-    const copydetail = [];
-    Array.from(order.details).forEach(element => {
-        copyproduct.push((element.product_id).toString())
-    });
-    for (let i=0; i<copy.length; i++) {
-        const product =await productModel.findById(copy[i]);
-        console.log(";;;;;;;;;;;;;;;;;;;;;",product.price)
-      }
-    Array.from(order.details).forEach(element => {
-        copydetail.push((order.details).toString())
-        console.log(element.quantity)
-        console.log(element.detail_id)
-    });
-    for (let i=0; i<copydetail.length; i++) {
-        //const product =await productModel.findById(copy[i]);
-        console.log(";;;;;;;;;;;;;;;;;;;;;",copydetail.quantity)
-      }
+    const order=await orderModel.findById(orderId).populate({ 
+        path: 'details', 
+        populate : {path: 'product_id'}})
+    // const copyproduct = [];
+    // const copydetail = [];
+    // Array.from(order.details).forEach(element => {
+    //     //copyproduct.push((element.product_id).toString())
+    //     //const detailId = req.params.id2;
+    //     return detailModel(element).findOne({detail_id:element.detail_id}).populate({ path: 'product_id', model: productModel})
+   
 
-    return detailModel.updateOne({detail_id: "d01"},{$set: {amount: 100000}})
-    //return res.status(200).json(detail);
+    // //return detailModel.updateOne({detail_id: "d01"},{$set: {amount: 100000}})
+    // //return res.status(200).json(detail);
+    // });
+    // for (let i=0; i<copyproduct.length; i++) {
+    //     const product =await productModel.findById(copyproduct[i]);
+    //     console.log(";;;;;;;;;;;;;;;;;;;;;",product.price)
+    //   }
+    // Array.from(order.details).forEach(element => {
+    //     copydetail.push((order.details).toString())
+    //     console.log(element.quantity)
+    //     console.log(element.detail_id)
+    // });
+    // for (let i=0; i<copydetail.length; i++) {
+    //     //const product =await productModel.findById(copy[i]);
+    //     console.log(";;;;;;;;;;;;;;;;;;;;;",copydetail.quantity)
+    //   }
+
+    // return detailModel.updateOne({detail_id: "d01"},{$set: {amount: 100000}})
+    return res.status(200).json(order);
 };
 module.exports.getOrderDetail = getOrderDetail;
 
+
+const getDetailProduct = async (req, res, next) => {
+    const detailId = req.params.id2;
+    const detail=await detailModel.findOne({detail_id:detailId}).populate({ path: 'product_id', model: productModel})
+   
+    //return detailModel.updateOne({detail_id: "d01"},{$set: {amount: 100000}})
+    return res.status(200).json(detail);
+};
+module.exports.getDetailProduct = getDetailProduct;
 
 
 

@@ -10,6 +10,7 @@ var router = require("express").Router();
 
 router.post('/createOrder/:id/:id1',detailController.createDetail);
 router.get('/orderDetail/:id/:id1',detailController.getOrderDetail);
+router.get('/orderDetail/:id/:id1/:id2',detailController.getDetailProduct);
 //router.get('/orderDetail/:id',orderController.getOrderDetail);
 module.exports=router;
 

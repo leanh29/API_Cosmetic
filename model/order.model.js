@@ -1,22 +1,21 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var orderSchema = Schema({
+    date: {type: Date, default: Date.now()},
     order_id: {
         type: String,
         unique: true,
         require: true,
+    },
+    user_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
     },
     details: [
         {
             type: Schema.Types.ObjectId,
             ref:'details'
         }]
-    ,
-    user_id: {
-        type: Schema.Types.ObjectId,
-        ref: 'users'
-    },
-    date: {type: Date, default: Date.now()}
 })
 var orderModel = mongoose.model("orders", orderSchema);
 module.exports = {

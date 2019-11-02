@@ -68,10 +68,6 @@ function dangnhap(username, password) {
                 })
             }
             else {
-                // var hash = crypto.createHmac('sha256', "MonAn")
-                //                 .update(password)
-                //                 .digest('hex');
-                //             password = hash;
                 return userModel.findOne({ password })
                     .then(pass => {
                         if (!pass) {

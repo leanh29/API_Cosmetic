@@ -6,8 +6,8 @@ var detailSchema = Schema({
         require:true,
     },
     product_id:{
-        type: String,
-        require:true
+        type:Schema.Types.ObjectId,
+        ref:'products'
     },
     order_id:{
         type:Schema.Types.ObjectId,
