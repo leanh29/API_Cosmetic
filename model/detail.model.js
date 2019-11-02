@@ -15,6 +15,9 @@ var detailSchema = Schema({
     },
     quantity:{
         type: Number    
+    },
+    amount:{
+        type: Number
     }
 })
 var detailModel = mongoose.model("details",detailSchema);

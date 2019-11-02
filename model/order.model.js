@@ -16,6 +16,7 @@ var orderSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'users'
     },
+    date: {type: Date, default: Date.now()}
 })
 var orderModel = mongoose.model("orders", orderSchema);
 module.exports = {

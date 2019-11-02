@@ -34,8 +34,8 @@ const createOrder = async (req, res, next) => {
 module.exports.createOrder = createOrder;
 const getUserOrder = async (req, res, next) => {
     const userId = req.params.id;
-    const user=await userModel.findById(userId).populate({ path: 'orders', select: 'order_id' })
-    return res.status(200).json(user.orders);
+    const user=await userModel.findById(userId).populate({ path: 'orders', select: ['order_id','date']})
+    return res.status(200).json(user);
 };
 module.exports.getUserOrder = getUserOrder;
 
