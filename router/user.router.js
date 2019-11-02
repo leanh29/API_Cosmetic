@@ -6,7 +6,7 @@ router.get("/getAllUsers", user_list);
 router.get("/getUser/:username",findUser);
 router.delete("/deleteUser/:username",delUser);
 router.put("/updateUser/:thongtin",updateUser);
-router.post("/dangnhap/:thongtin",dangnhap);
+router.get("/dangnhap/:thongtin",dangnhap);
 module.exports = router;
 
 function dangky (req, res) {

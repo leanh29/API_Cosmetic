@@ -55,6 +55,7 @@ const getOrderDetail = async (req, res, next) => {
     const order=await orderModel.findById(orderId).populate({ 
         path: 'details', 
         populate : {path: 'product_id'}})
+        console.log(order.details.quantity)
     // const copyproduct = [];
     // const copydetail = [];
     // Array.from(order.details).forEach(element => {
