@@ -1,7 +1,7 @@
 var userController = require("../controller/user.controller");
 var router = require("express").Router();
 
-router.post("/dangky", dangky);
+router.post("/:dangky", dangky);
 router.get("/getAllUsers", user_list);
 router.get("/getUser/:username",findUser);
 router.delete("/deleteUser/:username",delUser);
@@ -10,7 +10,7 @@ router.get("/dangnhap/:thongtin",dangnhap);
 module.exports = router;
 
 function dangky (req, res) {
-    var email = req.body.email;
+    var email = req.query.email;
     if(email == undefined){
         res.json({
             statusCode : 400,
@@ -19,7 +19,7 @@ function dangky (req, res) {
         //return;
     }
     console.log(email);
-    var username = req.body.username;
+    var username = req.query.username;
     if(username == undefined){
         res.json({
             statusCode : 400,
@@ -35,7 +35,7 @@ function dangky (req, res) {
         //return;
     }
     
-    var password = req.body.password;
+    var password = req.query.password;
     if(password == undefined){
         res.json({
             statusCode : 400,
@@ -50,9 +50,9 @@ function dangky (req, res) {
         })
     }
     
-    var sdt = req.body.sdt;
-    var location = req.body.location;
-    var gender = req.body.gender;
+    var sdt = req.query.sdt;
+    var location = req.query.location;
+    var gender = req.query.gender;
 
     //console.log("khong co j");
     userController.createUser(email,username, password, sdt, location,gender)
