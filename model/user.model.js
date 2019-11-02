@@ -19,8 +19,8 @@ var userSchema =  Schema({
         {
             type: Schema.Types.ObjectId,
             ref: 'orders'
-        }
-    ],
+        }]
+    ,
 });
 
 var userModel = mongoose.model("users",userSchema);

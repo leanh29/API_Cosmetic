@@ -6,12 +6,12 @@ var orderSchema = Schema({
         unique: true,
         require: true,
     },
-    detail: [
+    details: [
         {
             type: Schema.Types.ObjectId,
             ref:'details'
-        }
-    ],
+        }]
+    ,
     user_id: {
         type: Schema.Types.ObjectId,
         ref: 'users'

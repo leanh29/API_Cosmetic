@@ -1,72 +1,58 @@
-// const mongoose = require('mongoose');
-// const detailModel = require('../model/detail.model');
-// const productModel = require('../model/product.model');
+const mongoose = require('mongoose');
 
-// // const create = (req, res, next) => {
-// //     console.log(req.body);
-// //     User.create(req.body, (err, post) => {
-// //         if (err) return next(err);
-// //         res.json(post);
-// //     })
-// // };
-// //module.exports.create = create;
-// // const getId = (req, res, next) => {
-// //     User.findById(req.params.id, (err, users) => {
-// //         if (err) return next(err);
-// //         res.json(users);
-// //     })
-// // };
-// // module.exports.getId = getId;
-// const getAllDetail = (req, res, next) => {
-//     detailModel.find((err, details) => {
-//         if (err) return next(err);
-//         res.json(details);
-//     })
-// };
-// module.exports.getAllDetail = getAllDetail;
+const dataOrder = require('../model/order.model')
+const orderModel = dataOrder.orderModel
+var dataProduct = require("../model/product.model")
+var productModel = dataProduct.productModel
+var dataDetail = require("../model/detail.model")
+var detailModel = dataDetail.detailModel
 
-// // const update = (req, res, next) => {
-// //     User.findByIdAndUpdate(req.params.id, req.body, (err, users) => {
-// //         if (err) return next(err);
-// //         return res.json(users);
-// //     })
-// // };
-// // module.exports.update = update;
+const createDetail = async (req, res, next) => {
+    const userId = req.params.id;
+    const orderId = req.params.id1;
+    //const productId = req.body.product;
+    //create order
+    const newDetail = new detailModel(req.body);
+    //console.log(newOrder);
+    // get user
+    const order = await orderModel.findById(orderId);
+    // cái này lưu user vào order
+    newDetail.order_id = order;
+    //save order
+    await newDetail.save();
+    //user.orders=newOrder;
+    // console.log(user.username);
+    // cái này lưu order vào user
+    var arrDetail = order.details;
+    // console.log(newOrder._id);
+    await arrDetail.push(newDetail._id);
+    // console.log(arrOrder);
+    order.details = arrDetail;
+    console.log(order);
+    return orderModel.updateOne({_id: order._id},{$set: {details: arrDetail}})
+    .then(da => {
+        return res.status(201).json(newDetail);
+    })
+    .catch(er => {
+        return res.json(er);
+    })
+    
+    // console.log("_____________",userPush)
 
-// // const remove = (req, res, next) => {
-// //     User.findByIdAndRemove(req.params.id, (err, users) => {
-// //         if (err) return next(err);
-// //         res.json(users);
-// //     })
-// // };
-// // module.exports.remove = remove;
+    //await product.save();
+    
+};
+module.exports.createDetail = createDetail;
 
-// const newDetail = async (req, res, next) => {
-//     //const userId = req.params.id;
-//     //create order
-//     const product_id = req.body.product_id;
-//     const product = await productModel.findOne({product_id:product_id})
-//     console.log(product);
-//     const newOrder = new Order(req.body);
+const getOrderDetail = async (req, res, next) => {
+    const orderId = req.params.id1;
+    //const order=await orderModel.findById(orderId).populate('detai_id')
+    
+    const order=await orderModel.findById(orderId).populate({ path: 'details', select: ['product_id','detail_id','quantity']})
+    return res.status(200).json(order.details);
+};
+module.exports.getOrderDetail = getOrderDetail;
 
-//     // get user
-//     const user = await User.findById(userId);
-//     newOrder.seller = user;
-//     //save order
-//     await newOrder.save();
-
-//     user.orders.push(newOrder);
-//     await user.save();
-//     return res.status(201).json(newOrder);
-// };
-// module.exports.newOrder = newOrder;
-
-// const getUserOrder = async (req, res, next) => {
-//     const userid = req.params.id;
-//     const user = await User.findById(userid).populate('orders');
-//     return res.status(200).json(user);
-// };
-// module.exports.getUserOrder = getUserOrder;
 
 
 

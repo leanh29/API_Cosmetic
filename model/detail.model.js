@@ -5,11 +5,11 @@ var detailSchema = Schema({
         type:String,
         require:true,
     },
-    // product:{
-    //     type: Schema.Types.ObjectId,
-    //     ref:'products'
-    // },
-    order:{
+    product_id:{
+        type: String,
+        require:true
+    },
+    order_id:{
         type:Schema.Types.ObjectId,
         ref:'orders'
     },
