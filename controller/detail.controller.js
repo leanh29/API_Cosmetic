@@ -60,15 +60,12 @@ module.exports.getOrderDetail = getOrderDetail;
 
 const remove = async (req, res, next) => {
     orderId = req.params.id1
-    console.log("==================",req.query.detailId)
+    //console.log("==================",req.query.detailId)
     test = await detailModel.findById(req.query.detailId);
     tru = test.amount
     console.log(tru)
     detailModel.findByIdAndRemove(req.query.detailId, (err, detail) => {
         if (err) return next(err);
-       
-        //tong = (test.amount)
-    //console.log("tong",tong)
         res.json(detail);
     })
     return orderModel.updateOne({_id: orderId},{$set: {total: (tong-tru)}})
@@ -81,13 +78,10 @@ const update =async (req, res, next) => {
     detail1 = await detailModel.findById(req.query.detailId);
     product2 = await productModel.findById(product_id)
     order = await orderModel.findById(orderId)
-    console.log("orderrrrrrrrrrrr",order)
     detailModel.findByIdAndUpdate(req.query.detailId, {$set: {product_id: product_id, quantity:quantity,amount: product2.price*quantity}}, (err, detail) => {
         if (err) return next(err);
         return res.json(detail);
     })
-    console.log("order.tong",order.tong)
-    console.log("detail1.amount",detail1.amount)
     return orderModel.updateOne({_id: orderId},{$set: {total: (order.total-(detail1.amount)+(product2.price*quantity))}})
 };
 module.exports.update = update;
