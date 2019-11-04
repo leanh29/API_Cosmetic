@@ -159,38 +159,7 @@ function delUser(username) {
             return Promise.reject(err);
         });
 }
-// function updateUsers(username, password,sdt, location,gender) {
-//     return userModel.findOne({ username: username })
-//         .then(data => {
-//             if (data) {
-//                 // console.log(data);
-//                 return new Promise((resolve, reject) => {
-//                     var hash = crypto.createHmac('sha256', "users")
-//                                 .update(password)
-//                                 .digest('hex');
-//                             password = hash;
-//                     return userModel.updateOne({ username: username }, { $set: { password: password, sdt:sdt, location:location, gender:gender } })
-//                         .then(() => {
-//                             data.username = username;
-//                             console.log("aahahahahah",data);
-//                             return resolve(data);                 
-//                         })
-//                         .catch((err) => {
-//                             console.log(err);
-//                             return reject(err);
-//                         });
-//                 })
-//             }
-//             else {
-//                 return new Promise.resolve({
-//                     message: "user khong ton tai"
-//                 })
-//             }
-//         })
-//         .catch(err => {
-//             return Promise.reject(err);
-//         });
-// }
+
 function updateUser(username, old_password, new_password, sdt, location, gender) {
     return userModel.findOne({ username: username }, { password: old_password })
         .then(data => {
@@ -205,9 +174,8 @@ function updateUser(username, old_password, new_password, sdt, location, gender)
                 //                 .digest('hex');
                 //                 old_password = hash;
                 return userModel.updateOne({ username: username }, { $set: { password: new_password, sdt: sdt, location: location, gender: gender } })
-                    .then(() => {
+                    .then(function(data) {
                         data.username = username;
-                        console.log("aahahahahah", data);
                         return resolve(data);
                     })
                     .catch((err) => {

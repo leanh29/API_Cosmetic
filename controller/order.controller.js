@@ -12,7 +12,10 @@ var userModel = dataUser.userModel
 
 const createOrder = async (req, res, next) => {
     const userId = req.params.id;
-    const newOrder = new orderModel(req.body);
+    const newOrder = new orderModel({
+        order_id : req.body.order_id,
+        total:0
+    });
     console.log(newOrder);
     const user = await userModel.findById(userId);
     newOrder.user_id = user;
@@ -34,7 +37,7 @@ const createOrder = async (req, res, next) => {
 module.exports.createOrder = createOrder;
 const getUserOrder = async (req, res, next) => {
     const userId = req.params.id;
-    const user=await userModel.findById(userId).populate({ path: 'orders', select: ['order_id','date']})
+    const user=await userModel.findById(userId).populate({ path: 'orders', model:'orders'})
     return res.status(200).json(user);
 };
 module.exports.getUserOrder = getUserOrder;

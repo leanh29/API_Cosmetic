@@ -131,7 +131,7 @@ function delUser(req,res){
 }
 function updateUser(req,res){
     var username=req.query.username;
-    var old_password=req.query.old_password;
+    var old_password=req.body.old_password;
     // if(!password){
     //     return res.json({
     //         statusCode : 400,
@@ -157,7 +157,8 @@ function updateUser(req,res){
     userController.updateUser(username,old_password,new_password,sdt,location,gender)
     .then(function(data){
         return res.json({
-            data:data,
+            data,
+            message: "Cập nhật thành công",
             statusCode: 200,
             // message: config.SUCCESS
         });

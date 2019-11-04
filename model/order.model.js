@@ -15,7 +15,10 @@ var orderSchema = Schema({
         {
             type: Schema.Types.ObjectId,
             ref:'details'
-        }]
+        }],
+    total: {
+        type: Number
+    }
 })
 var orderModel = mongoose.model("orders", orderSchema);
 module.exports = {

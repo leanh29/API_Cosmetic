@@ -8,45 +8,44 @@ var dataDetail = require("../model/detail.model")
 var detailModel = dataDetail.detailModel
 
 const createDetail = async (req, res, next) => {
-    const userId = req.params.id;
+    const productId = req.body.product_id;
     const orderId = req.params.id1;
-    //const productId = req.body.product;
-    //create order
     const newDetail = new detailModel({
         detail_id:req.body.detail_id,
         product_id: req.body.product_id,
         quantity: req.body.quantity,
-        amount: 200*5
+        amount: 0
     } 
     );
-    //console.log(newOrder);
-    // get user
+
+    // luu new detail, dua vao mang order
     const order = await orderModel.findById(orderId);
-    // cái này lưu user vào order
     newDetail.order_id = order;
-    //save order
     await newDetail.save();
-    //user.orders=newOrder;
-    // console.log(user.username);
-    // cái này lưu order vào user
     var arrDetail = order.details;
-    // console.log(newOrder._id);
     await arrDetail.push(newDetail._id);
-    // console.log(arrOrder);
     order.details = arrDetail;
-    console.log(order.price);
-    return orderModel.updateOne({_id: order._id},{$set: {details: arrDetail}})
+
+    // tinh thanh tien moi san pham
+    const product = await productModel.findById(newDetail.product_id);
+    amount=product.price*newDetail.quantity
+    
+    // luu thanh tien vao tung detail trong order
+    await detailModel.updateOne({_id:newDetail._id},{$set: {amount:amount}})
+
+    // tinh tong thanh tien cua hoa don
+    tong = Number(order.total)
+    amount = Number(amount)
+    tong+=amount
+   
+    // luu tong thanh tien vao hoa hdon
+    return orderModel.updateOne({_id: order._id},{$set: {details: arrDetail,total: tong}})
     .then(da => {
         return res.status(201).json(newDetail);
     })
     .catch(er => {
         return res.json(er);
     })
-    
-    // console.log("_____________",userPush)
-
-    //await product.save();
-    
 };
 module.exports.createDetail = createDetail;
 
@@ -55,48 +54,40 @@ const getOrderDetail = async (req, res, next) => {
     const order=await orderModel.findById(orderId).populate({ 
         path: 'details', 
         populate : {path: 'product_id'}})
-        console.log(order.details.quantity)
-    // const copyproduct = [];
-    // const copydetail = [];
-    // Array.from(order.details).forEach(element => {
-    //     //copyproduct.push((element.product_id).toString())
-    //     //const detailId = req.params.id2;
-    //     return detailModel(element).findOne({detail_id:element.detail_id}).populate({ path: 'product_id', model: productModel})
-   
-
-    // //return detailModel.updateOne({detail_id: "d01"},{$set: {amount: 100000}})
-    // //return res.status(200).json(detail);
-    // });
-    // for (let i=0; i<copyproduct.length; i++) {
-    //     const product =await productModel.findById(copyproduct[i]);
-    //     console.log(";;;;;;;;;;;;;;;;;;;;;",product.price)
-    //   }
-    // Array.from(order.details).forEach(element => {
-    //     copydetail.push((order.details).toString())
-    //     console.log(element.quantity)
-    //     console.log(element.detail_id)
-    // });
-    // for (let i=0; i<copydetail.length; i++) {
-    //     //const product =await productModel.findById(copy[i]);
-    //     console.log(";;;;;;;;;;;;;;;;;;;;;",copydetail.quantity)
-    //   }
-
-    // return detailModel.updateOne({detail_id: "d01"},{$set: {amount: 100000}})
     return res.status(200).json(order);
 };
 module.exports.getOrderDetail = getOrderDetail;
 
-
-const getDetailProduct = async (req, res, next) => {
-    const detailId = req.params.id2;
-    const detail=await detailModel.findOne({detail_id:detailId}).populate({ path: 'product_id', model: productModel})
-   
-    //return detailModel.updateOne({detail_id: "d01"},{$set: {amount: 100000}})
-    return res.status(200).json(detail);
+const remove = async (req, res, next) => {
+    orderId = req.params.id1
+    console.log("==================",req.query.detailId)
+    test = await detailModel.findById(req.query.detailId);
+    tru = test.amount
+    console.log(tru)
+    detailModel.findByIdAndRemove(req.query.detailId, (err, detail) => {
+        if (err) return next(err);
+       
+        //tong = (test.amount)
+    //console.log("tong",tong)
+        res.json(detail);
+    })
+    return orderModel.updateOne({_id: orderId},{$set: {total: (tong-tru)}})
 };
-module.exports.getDetailProduct = getDetailProduct;
-
-
-
-
-
+module.exports.remove = remove;
+const update =async (req, res, next) => {
+    orderId = req.params.id1
+    product_id = req.body.product_id
+    quantity = req.body.quantity
+    detail1 = await detailModel.findById(req.query.detailId);
+    product2 = await productModel.findById(product_id)
+    order = await orderModel.findById(orderId)
+    console.log("orderrrrrrrrrrrr",order)
+    detailModel.findByIdAndUpdate(req.query.detailId, {$set: {product_id: product_id, quantity:quantity,amount: product2.price*quantity}}, (err, detail) => {
+        if (err) return next(err);
+        return res.json(detail);
+    })
+    console.log("order.tong",order.tong)
+    console.log("detail1.amount",detail1.amount)
+    return orderModel.updateOne({_id: orderId},{$set: {total: (order.total-(detail1.amount)+(product2.price*quantity))}})
+};
+module.exports.update = update;
